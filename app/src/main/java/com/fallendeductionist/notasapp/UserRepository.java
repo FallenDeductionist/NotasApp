@@ -1,5 +1,6 @@
 package com.fallendeductionist.notasapp;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import com.fallendeductionist.notasapp.models.User;
@@ -40,6 +41,7 @@ public class UserRepository {
         }
         return null;
     }
+
     public static void delete(Long id){
         User user = SugarRecord.findById(User.class, id);
         SugarRecord.delete(user);

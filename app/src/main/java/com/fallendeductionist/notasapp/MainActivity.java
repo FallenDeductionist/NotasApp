@@ -37,18 +37,20 @@ public class MainActivity extends AppCompatActivity {
         }
         else{
             User user = UserRepository.login(username, password);
-            String usernameLogin = user.getUsername();
-            String passwordLogin = user.getPassword();
 
             if (user == null){
                 Toast.makeText(this, "Wrong username, password or not registered!", Toast.LENGTH_SHORT).show();
             }
             else {
-                Log.d("user", user.toString());
 
+                String fullnameLogin = user.getFullname();
+                Long identifier = user.getId();
+
+                Log.d("user", user.toString());
+                Log.d("identifier", identifier.toString());
                 Intent intent = new Intent(this, NotesActivity.class);
-                intent.putExtra("username",usernameLogin);
-                intent.putExtra("password",passwordLogin);
+                intent.putExtra("fullname",fullnameLogin);
+                intent.putExtra("identifier", identifier);
                 startActivity(intent);
             }
 

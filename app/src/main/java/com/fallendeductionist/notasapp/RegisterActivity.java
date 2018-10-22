@@ -3,6 +3,8 @@ package com.fallendeductionist.notasapp;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -19,10 +21,14 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        fullnameInput = (EditText)findViewById(R.id.username_input);
-        usernameInput = (EditText)findViewById(R.id.fullname_input);
+        usernameInput = (EditText)findViewById(R.id.username_input);
+        fullnameInput = (EditText)findViewById(R.id.fullname_input);
         emailInput = (EditText)findViewById(R.id.email_input);
         passwordInput = (EditText)findViewById(R.id.password_input);
+
+        Toolbar toolbar = findViewById(R.id.toolbar1);
+        toolbar.setTitle("Registro de usuarios");
+        setSupportActionBar(toolbar);
     }
 
     public void callRegister(View view) {
@@ -37,6 +43,9 @@ public class RegisterActivity extends AppCompatActivity {
         }
         else{
             Toast.makeText(this, "User registered", Toast.LENGTH_SHORT).show();
+
+            String hola = UserRepository.list().toString();
+            Log.d("hola", hola);
         }
 
         UserRepository.create(username, fullname, email, password);
