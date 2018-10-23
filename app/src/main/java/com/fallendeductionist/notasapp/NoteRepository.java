@@ -25,6 +25,34 @@ public class NoteRepository {
         }
     }
 
+    public static List<Note> listFavorite(String linkCards){
+
+        List<Note> notes = SugarRecord.find(Note.class, "link_cards = ? and favorite = ?", linkCards, "true");
+
+        if (notes.size() != 0){
+            return notes;
+        }
+
+        else{
+            ArrayList<Note> emptyNotes = new ArrayList<>() ;
+            return emptyNotes;
+        }
+    }
+
+    public static List<Note> listArchive(String linkCards){
+
+        List<Note> notes = SugarRecord.find(Note.class, "link_cards = ? and archive = ?", linkCards, "true");
+
+        if (notes.size() != 0){
+            return notes;
+        }
+
+        else{
+            ArrayList<Note> emptyNotes = new ArrayList<>() ;
+            return emptyNotes;
+        }
+    }
+
     public static Note read(Long id){
         Note note = SugarRecord.findById(Note.class, id);
         return note;
