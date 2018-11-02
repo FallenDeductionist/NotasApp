@@ -27,7 +27,7 @@ public class NoteRepository {
 
     public static List<Note> listFavorite(String linkCards){
 
-        List<Note> notes = SugarRecord.find(Note.class, "link_cards = ? and favorite = ?", linkCards, "true");
+        List<Note> notes = SugarRecord.find(Note.class, "link_cards = ? and favorite = ?", linkCards, "1");
 
         if (notes.size() != 0){
             return notes;
@@ -41,7 +41,7 @@ public class NoteRepository {
 
     public static List<Note> listArchive(String linkCards){
 
-        List<Note> notes = SugarRecord.find(Note.class, "link_cards = ? and archive = ?", linkCards, "true");
+        List<Note> notes = SugarRecord.find(Note.class, "link_cards = ? and archive = ?", linkCards, "1");
 
         if (notes.size() != 0){
             return notes;
@@ -58,7 +58,7 @@ public class NoteRepository {
         return note;
     }
 
-    public static void create(String date, String title, String description, Boolean favorite, Boolean archive, Long linkCards){
+    public static void create(String date, String title, String description, Boolean favorite, Boolean archive, long linkCards){
         Note note = new Note(date, title, description, favorite, archive, linkCards);
         SugarRecord.save(note);
     }

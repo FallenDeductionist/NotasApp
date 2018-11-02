@@ -19,8 +19,10 @@ import java.util.List;
 
 public class NotesActivity extends AppCompatActivity {
 
-    private RecyclerView notesList;
     private static final int REGISTER_FORM_REQUEST = 100;
+    private Fragment homeFragment;
+    private Fragment favoriteFragment;
+    private Fragment archiveFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +30,9 @@ public class NotesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notes);
 
         final String fullname = this.getIntent().getExtras().getString("fullname");
-        long link = this.getIntent().getExtras().getLong("identifier");
-
+        final Long link = this.getIntent().getExtras().getLong("identifier");
+        String linking = String.valueOf(link);
+        Log.d("link", linking);
         Toolbar toolbar = findViewById(R.id.toolbar2);
         toolbar.setTitle("Notas");
         setSupportActionBar(toolbar);
@@ -37,44 +40,34 @@ public class NotesActivity extends AppCompatActivity {
         toolbar1.setTitle("Bienvenido " + fullname);
         setSupportActionBar(toolbar1);
 
-        HomeFragment homeFragment = new HomeFragment();
-        Bundle bundle = new Bundle();
-        bundle.putLong("rofl", link);
-        homeFragment.setArguments(bundle);
+        homeFragment = HomeFragment.newInstance(linking);
+        favoriteFragment = FavoriteFragment.newInstance(linking);
+        archiveFragment = ArchiveFragment.newInstance(linking);
 
-        FavoriteFragment favoriteFragment = new FavoriteFragment();
-        Bundle bundle2 = new Bundle();
-        bundle.putLong("rofl", link);
-        favoriteFragment.setArguments(bundle2);
-
-        ArchiveFragment archiveFragment = new ArchiveFragment();
-        Bundle bundle3 = new Bundle();
-        bundle.putLong("rofl", link);
-        archiveFragment.setArguments(bundle3);
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,homeFragment).commit();
 
     }
 
     public void refreshData() {
-        NoteAdapter adapter = (NoteAdapter) notesList.getAdapter();
-        Note note = new Note();
-        Long linking = this.getIntent().getExtras().getLong("identifier");
-        List<Note> notes = NoteRepository.list(linking.toString());
-        adapter.setNotes(notes);
-        adapter.notifyDataSetChanged();
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
+        Long link = this.getIntent().getExtras().getLong("identifier");
+        String linking = String.valueOf(link);
+        Log.d("link", linking);
+        homeFragment = HomeFragment.newInstance(linking);
+        favoriteFragment = FavoriteFragment.newInstance(linking);
+        archiveFragment = ArchiveFragment.newInstance(linking);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeFragment).commit();
     }
 
     public void callRegister(View view) {
-        Long linking = getIntent().getExtras().getLong("linking");
-        Log.d("link", linking.toString());
+        Long link = getIntent().getExtras().getLong("identifier");
+        Log.d("link", link.toString());
 
         Intent intent2 = new Intent(this, AddNotesActivity.class);
-        intent2.putExtra("linking", linking);
+        intent2.putExtra("linking", link);
         startActivityForResult(intent2, REGISTER_FORM_REQUEST);
     }
 
@@ -101,15 +94,15 @@ public class NotesActivity extends AppCompatActivity {
 
                     switch (item.getItemId()) {
                         case R.id.nav_home:
-                            selectedFragment = new HomeFragment();
+                            selectedFragment = homeFragment;
                             break;
 
                         case R.id.nav_favorite:
-                            selectedFragment = new FavoriteFragment();
+                            selectedFragment = favoriteFragment;
                             break;
 
                         case R.id.nav_archive:
-                            selectedFragment = new ArchiveFragment();
+                            selectedFragment = archiveFragment;
                             break;
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();

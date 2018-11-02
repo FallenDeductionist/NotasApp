@@ -28,7 +28,7 @@ public class AddNotesActivity extends AppCompatActivity {
         descriptionNote = (EditText)findViewById(R.id.description_note);
 
         Note note = new Note();
-        String test = NoteRepository.list("3").toString();
+        String test = NoteRepository.list("1").toString();
         Log.d("test lista", test);
 
     }
